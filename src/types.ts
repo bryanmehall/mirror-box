@@ -1,1 +1,1 @@
-export type DirectionFlag = "left" | "Right"
+export type DirectionFlag = "left" | "right"

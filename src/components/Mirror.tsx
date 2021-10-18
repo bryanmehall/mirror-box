@@ -1,11 +1,12 @@
 import * as React from 'react'
+import { DirectionFlag } from '../types'
 import { xScale } from '../utils'
 
 const MIRROR_WIDTH = 0.2 //offset mirror width for reflections
 
 type MirrorProps = {
     width: number,
-    direction: "left" | "right"
+    direction: DirectionFlag
 }
 
 export const Mirror = ({width, direction}: MirrorProps) => {
