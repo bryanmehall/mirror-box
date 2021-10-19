@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { MIRROR_LENGTH } from '../constants'
 import { DirectionFlag } from '../types'
 import { xScale } from '../utils'
 
@@ -16,7 +17,7 @@ export const Mirror = ({width, direction}: MirrorProps) => {
             x1={x} 
             y1={0} 
             x2={x} 
-            y2={-10} 
+            y2={-1*MIRROR_LENGTH} 
             stroke="cyan"
             strokeWidth={MIRROR_WIDTH}
             cursor="ew-resize"
