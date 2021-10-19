@@ -54,8 +54,8 @@ export const getReflectionPath = (maxIndex: null | number) => {
     if (maxIndex === null){
        return [] 
     } else {
-        return new Array(Math.abs(maxIndex)).fill(0)
-            .map((e,i) => isEven(i)*i)
+        return new Array(Math.abs(maxIndex)+1).fill(0)
+            .map((e,i) => isEven(i)*i*isEven(maxIndex)*Math.sign(maxIndex))
     }
 }
     
