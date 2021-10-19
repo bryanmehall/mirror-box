@@ -9,10 +9,8 @@ import { Viewer } from './Viewer'
 
 //independent variables
 //TODO: add to state
-const width = 4
-const viewerPosition = -0.2
+const viewerPosition = 0.5
 const targetPosition = 8
-//time
 
 export const Visualization = () => {
     const [time, setTime] = React.useState(-2)
