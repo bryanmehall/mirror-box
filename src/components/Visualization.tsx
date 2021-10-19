@@ -48,6 +48,7 @@ export const Visualization = () => {
             />
             ))
             .reverse() //render middle ray with highest z-index
+    return <svg width="100%" height="100%" viewBox="-15 -10 30 14" ref={svg}>
         <SVGFilters width={mirrorWidth}></SVGFilters>
         <Mirror width={mirrorWidth} direction="left" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
         <Mirror width={mirrorWidth} direction="right" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
