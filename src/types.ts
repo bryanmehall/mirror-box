@@ -15,10 +15,12 @@ export interface RayGeometry {
     viewerPos: number;
     direction: "left" | "right"
     points: PointArray;
+    index: number;
 }
 
 export interface RayProps {
     rayGeometry: RayGeometry;
-    highlighted: boolean;
+    highlightedIndex: null | number;
+    setHighlightedIndex: Function
     opacity:number;
 }

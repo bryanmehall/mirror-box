@@ -1,7 +1,7 @@
 import * as React from "react"
 import { CLIP_NAME, LIGHT_SPEED } from "../constants"
 import { PointArray, RayProps } from "../types"
-import { refColor } from "../utils"
+import { getReflectionPath, refColor } from "../utils"
 import { Target } from "./Target"
 
 // convert PointArray [{x:num, y:num}, ...] to svg path string "Mnum numL..."
@@ -13,8 +13,10 @@ const pointsToString = (points: PointArray): string => {
     return `M${points[0].x} ${points[0].y}${lineString}`
 }
 
-export const Ray = ({ rayGeometry, highlighted, opacity, time }: RayProps): JSX.Element => {
-    const {points, reflections, width, targetPos, viewerPos, direction} = rayGeometry
+export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, setHighlightedIndex }: RayProps): JSX.Element => {
+    const {points, reflections, width, targetPos, viewerPos, direction, index} = rayGeometry
+    const highlighted = highlightedIndex === index
+    const isInPath = getReflectionPath(highlightedIndex).includes(index)
     const xScale = direction == "left" ? -1: 1 //TODO: use util
     const length = (viewerPos-targetPos)
     const slope = xScale*length/(width*reflections)
@@ -36,7 +38,7 @@ export const Ray = ({ rayGeometry, highlighted, opacity, time }: RayProps): JSX.
             x2={targetX}
             y2={-targetPos}
             stroke={rayColor}
-            opacity = {highlighted? 1: rayOpacity }
+            opacity = {rayOpacity}
             strokeDasharray=".2"
             strokeWidth = {0.04}
         />
@@ -44,12 +46,24 @@ export const Ray = ({ rayGeometry, highlighted, opacity, time }: RayProps): JSX.
             cx={targetX} 
             cy={-targetPos} 
             r={LIGHT_SPEED*time} 
-            opacity={opacity} 
+            opacity={rayOpacity} 
             fill="none" 
             stroke={refColor(reflections, highlighted ? 1: 0)} 
             strokeWidth="0.1"
             clipPath={clip ? `url(#${ CLIP_NAME})`: null}
         />
-        <Target x={targetX} y={targetPos} opacity={opacity}/>
+        <circle
+            cx={targetX} 
+            cy={-targetPos} 
+            r={LIGHT_SPEED*time} 
+            opacity={rayOpacity} 
+            fill="none" 
+            stroke={refColor(reflections, highlighted ? 1: 0)} 
+            strokeWidth="0.1"
+            clipPath={clip ? `url(#${ CLIP_NAME})`: null}
+        />
+        <Target 
+            onClick={() => {setHighlightedIndex(index)}}
+             x={targetX} y={targetPos} opacity={opacity}/>
     </g>
 }

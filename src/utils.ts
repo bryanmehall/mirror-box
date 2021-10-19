@@ -18,6 +18,7 @@ const isEven = (n:number): number => n % 2 === 0 ? 1 :-1
 export const createRayGeometry = (width:number, targetPos:number, viewerPos:number, reflections: number, direction:"left" | "right"): RayGeometry => {
     const length = targetPos+viewerPos
     const xScale = direction === "left" ? -1 : 1 //scaling factor if array is going left or right
+    const index = xScale*reflections
     const pitch = length/reflections //distance for full reflection cycle
     const reflectionPoints = new Array(reflections) 
         .fill(0)
@@ -30,7 +31,7 @@ export const createRayGeometry = (width:number, targetPos:number, viewerPos:numb
         ...reflectionPoints,
         {x:0, y:-targetPos} //target
     ]
-    return { points: pointArray, reflections, width, targetPos, viewerPos, length, direction}
+    return { points: pointArray, reflections, width, targetPos, viewerPos, length, direction, index}
 }
 
 //calculate possible paths based on occlusion angle
@@ -47,5 +48,16 @@ export const createPossiblePaths = (width: number, targetPos: number, viewerPos:
         .flat()
     return [createRayGeometry(width, targetPos, viewerPos, 0, "left"), ...reflectedPaths]
 }
+
+//get indices in reflection path ie. 4 => [4, -3, 2, -1,0]
+export const getReflectionPath = (maxIndex: null | number) => {
+    if (maxIndex === null){
+       return [] 
+    } else {
+        return new Array(Math.abs(maxIndex)).fill(0)
+            .map((e,i) => isEven(i)*i)
+    }
+}
+    
 
 export const clamp = (n: number, min: number, max: number): number => (Math.min(Math.max(n, min), max))

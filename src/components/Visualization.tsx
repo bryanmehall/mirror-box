@@ -16,6 +16,7 @@ export const Visualization = () => {
     const [initialTime, setInitialTime] = React.useState(performance.now())
     const [playbackSpeed, setPlaybackSpeed] = React.useState(0.5)
     const [mirrorWidth, setMirrorWidth] = React.useState(4)
+    const [highlightedIndex, setHighlightedIndex] = React.useState(null)
     const svg = React.useRef(null)
     //inverse svg coordinate transform --adapted from Zibit
     const getCoord = (event) => {
@@ -41,7 +42,8 @@ export const Visualization = () => {
         const rays = paths.map((rayGeometry, i) => (
             <Ray 
                 rayGeometry={rayGeometry} 
-                highlighted={i==3}
+                highlightedIndex={highlightedIndex}
+                setHighlightedIndex={setHighlightedIndex}
                 opacity={rayOpacity(rayGeometry.reflections)} 
                 time={time}
                 key={i}
