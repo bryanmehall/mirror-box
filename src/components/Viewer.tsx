@@ -6,6 +6,6 @@ type ViewerProps = {
 
 export const Viewer = ({viewerPosition}): JSX.Element => {
     return (
-        <circle cx={0} cy={viewerPosition} r={0.3}></circle>
+        <circle cx={0} cy={viewerPosition} r={0.3} fill="#aaa"></circle>
     )
 }

@@ -4,8 +4,13 @@ export const xScale = (direction: DirectionFlag): number => (
     direction == "left" ? -1 : 1
 )
 
-const reflectionColors = ["#00f", "#0f0", "#fe0", "#fa0", "#f00", "#f0f", "#a0f"]
+const reflectionHues = [ 50, 100, 200, 270, 0, 25]
 //cycle through colors then repeat
+export const refColor = (n: number, saturation: number): string => {
+    const hue = reflectionHues[n % reflectionHues.length]
+    return `hsl(${hue},${saturation*100}%, 40%)`
+}
+
 export const rayOpacity = (reflections:number, ): number => ( 
     0.7**reflections
 )
