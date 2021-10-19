@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { CLIP_NAME, LIGHT_SPEED, MIRROR_LENGTH } from '../constants'
 import { Ray } from './Ray'
 import { createPossiblePaths, rayOpacity } from '../utils'
 import { LightPulse } from './LightPulse'
@@ -53,17 +54,21 @@ export const Visualization = () => {
         <Target x={0} y={targetPosition} opacity={1}/>
         <LightPulse 
             y={targetPosition} 
+            radius={Math.max(0, time*LIGHT_SPEED)}
             mirrorWidth={mirrorWidth}
             opacity={1}
+            saturation={1}
+            clip={true}
+        />
         {rays}
         />
     </svg>
 }
 
-const SVGFilters = () => (
+const SVGFilters = ({width}) => (
         <defs>
             <clipPath id={CLIP_NAME}>
-                <rect x={-width/2} y={-MIRROR_LENGTH} width={width} height={MIRROR_LENGTH*2} />
+                <rect x={-width/2} y={-MIRROR_LENGTH} width={width} height={MIRROR_LENGTH+2} />
             </clipPath>
             <filter id="blur">
                 <feGaussianBlur in="SourceGraphic" stdDeviation=".2" />
