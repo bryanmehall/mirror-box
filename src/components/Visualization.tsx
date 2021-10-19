@@ -1,8 +1,7 @@
 import * as React from 'react'
-import { CLIP_NAME, LIGHT_SPEED, MIRROR_LENGTH } from '../constants'
+import { CLIP_NAME, MIRROR_LENGTH } from '../constants'
 import { Ray } from './Ray'
 import { createPossiblePaths, rayOpacity } from '../utils'
-import { LightPulse } from './LightPulse'
 import { Mirror } from './Mirror'
 import { Target } from './Target'
 import { Viewer } from './Viewer'
@@ -42,8 +41,9 @@ export const Visualization = () => {
         const rays = paths.map((rayGeometry, i) => (
             <Ray 
                 rayGeometry={rayGeometry} 
-                highlighted={false}
+                highlighted={i==3}
                 opacity={rayOpacity(rayGeometry.reflections)} 
+                time={time}
                 key={i}
             />
             ))
@@ -54,16 +54,7 @@ export const Visualization = () => {
         <Mirror width={mirrorWidth} direction="right" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
         <Viewer viewerPosition={viewerPosition}/>
         <Target x={0} y={targetPosition} opacity={1}/>
-        <LightPulse 
-            y={targetPosition} 
-            radius={Math.max(0, time*LIGHT_SPEED)}
-            mirrorWidth={mirrorWidth}
-            opacity={1}
-            saturation={1}
-            clip={true}
-        />
         {rays}
-        />
     </svg>
 }
 

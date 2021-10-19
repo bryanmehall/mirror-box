@@ -1,5 +1,7 @@
 import * as React from "react"
+import { CLIP_NAME, LIGHT_SPEED } from "../constants"
 import { PointArray, RayProps } from "../types"
+import { refColor } from "../utils"
 import { Target } from "./Target"
 
 // convert PointArray [{x:num, y:num}, ...] to svg path string "Mnum numL..."
@@ -11,19 +13,21 @@ const pointsToString = (points: PointArray): string => {
     return `M${points[0].x} ${points[0].y}${lineString}`
 }
 
-export const Ray = ({ rayGeometry, highlighted, opacity }: RayProps): JSX.Element => {
+export const Ray = ({ rayGeometry, highlighted, opacity, time }: RayProps): JSX.Element => {
     const {points, reflections, width, targetPos, viewerPos, direction} = rayGeometry
     const xScale = direction == "left" ? -1: 1 //TODO: use util
     const length = (viewerPos-targetPos)
     const slope = xScale*length/(width*reflections)
     const targetX = length/slope
-    const rayOpacity = opacity*.4
+    const rayOpacity = highlighted ? 1: opacity*.4
+    const clip = true
+    const rayColor = highlighted ? "red" : "white"
     return <g>
         <path 
             d={pointsToString(points)}
-            stroke={highlighted ? "red" : "white"}
+            stroke={rayColor}
             fill="none"
-            strokeWidth={highlighted ? 0.08 : 0.04}
+            strokeWidth={ 0.04}
             opacity={rayOpacity}
         />
         <line
@@ -31,10 +35,20 @@ export const Ray = ({ rayGeometry, highlighted, opacity }: RayProps): JSX.Elemen
             y1={points[1].y}
             x2={targetX}
             y2={-targetPos}
-            stroke="white"
-            opacity = {rayOpacity}
+            stroke={rayColor}
+            opacity = {highlighted? 1: rayOpacity }
             strokeDasharray=".2"
             strokeWidth = {0.04}
+        />
+        <circle
+            cx={targetX} 
+            cy={-targetPos} 
+            r={LIGHT_SPEED*time} 
+            opacity={opacity} 
+            fill="none" 
+            stroke={refColor(reflections, highlighted ? 1: 0)} 
+            strokeWidth="0.1"
+            clipPath={clip ? `url(#${ CLIP_NAME})`: null}
         />
         <Target x={targetX} y={targetPos} opacity={opacity}/>
     </g>
