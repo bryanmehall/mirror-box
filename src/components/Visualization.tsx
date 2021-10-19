@@ -70,8 +70,5 @@ const SVGFilters = ({width}) => (
             <clipPath id={CLIP_NAME}>
                 <rect x={-width/2} y={-MIRROR_LENGTH} width={width} height={MIRROR_LENGTH+2} />
             </clipPath>
-            <filter id="blur">
-                <feGaussianBlur in="SourceGraphic" stdDeviation=".2" />
-            </filter>
         </defs>
 )
