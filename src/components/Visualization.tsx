@@ -15,8 +15,9 @@ const targetPosition = 8
 //time
 
 export const Visualization = () => {
-    const [time, setTime] = React.useState(0)
+    const [time, setTime] = React.useState(-2)
     const [initialTime, setInitialTime] = React.useState(performance.now())
+    const [playbackSpeed, setPlaybackSpeed] = React.useState(0.5)
     const [mirrorWidth, setMirrorWidth] = React.useState(4)
     const svg = React.useRef(null)
     //inverse svg coordinate transform --adapted from Zibit
@@ -28,13 +29,14 @@ export const Visualization = () => {
     }
     //add animation for time value --adapted from Zibit
     React.useLayoutEffect(() => {
+        let animationId
         if (playbackSpeed !== 0){
-            let animationId
             const render = (time) => {
                 setTime((time-initialTime)*playbackSpeed/1000)
-                animationId = requestAnimationFrame(render)
             }
+
             animationId = requestAnimationFrame(render)
+        } else {
             return () => {cancelAnimationFrame(animationId)}
         }
     })
