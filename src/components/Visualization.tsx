@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { CLIP_NAME, MIRROR_LENGTH } from '../constants'
+import { Ray } from './Ray'
+import { createPossiblePaths, rayOpacity } from '../utils'
 import { LightPulse } from './LightPulse'
 import { Mirror } from './Mirror'
 import { Target } from './Target'
@@ -28,10 +29,16 @@ export const Visualization = () => {
             return () => {cancelAnimationFrame(animationId)}
         }
     })
-    return <svg width="100%" height="100%" viewBox="-15 -10 30 12">
-        <SVGFilters></SVGFilters>
-        <Mirror width={width} direction="left"/>
-        <Mirror width={width} direction="right"/>
+    const paths = createPossiblePaths(mirrorWidth, targetPosition, viewerPosition)
+        const rays = paths.map((rayGeometry, i) => (
+            <Ray 
+                rayGeometry={rayGeometry} 
+                highlighted={false}
+                opacity={rayOpacity(rayGeometry.reflections)} 
+                key={i}
+            />
+            ))
+            .reverse() //render middle ray with highest z-index
         <Viewer viewerPosition={viewerPosition}/>
         <Target x={0} y={targetPosition} opacity={1}/>
         <LightPulse 
@@ -39,6 +46,7 @@ export const Visualization = () => {
             radius={time}
             mirrorWidth={width}
             opacity={1}
+        {rays}
         />
     </svg>
 }
