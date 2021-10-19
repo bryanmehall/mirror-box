@@ -16,8 +16,16 @@ const targetPosition = 8
 export const Visualization = () => {
     const [time, setTime] = React.useState(0)
     const [initialTime, setInitialTime] = React.useState(performance.now())
-    const [playbackSpeed, setPlaybackSpeed] = React.useState(0)
-    //add animation for time value
+    const [mirrorWidth, setMirrorWidth] = React.useState(4)
+    const svg = React.useRef(null)
+    //inverse svg coordinate transform --adapted from Zibit
+    const getCoord = (event) => {
+        const pt = svg.current.createSVGPoint()
+        pt.x = event.clientX
+        pt.y = event.clientY
+        return pt.matrixTransform(svg.current.getScreenCTM().inverse())
+    }
+    //add animation for time value --adapted from Zibit
     React.useLayoutEffect(() => {
         if (playbackSpeed !== 0){
             let animationId
@@ -39,12 +47,13 @@ export const Visualization = () => {
             />
             ))
             .reverse() //render middle ray with highest z-index
+        <Mirror width={mirrorWidth} direction="left" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
+        <Mirror width={mirrorWidth} direction="right" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
         <Viewer viewerPosition={viewerPosition}/>
         <Target x={0} y={targetPosition} opacity={1}/>
         <LightPulse 
             y={targetPosition} 
-            radius={time}
-            mirrorWidth={width}
+            mirrorWidth={mirrorWidth}
             opacity={1}
         {rays}
         />
