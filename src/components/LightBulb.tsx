@@ -23,5 +23,3 @@ export const LightBulb = ({x, y, opacity, onClick, illuminated}: TargetProps): J
         />
     </g>
 }
-//<rect x={0.18} y={0.55} width={.3} height={.3} strokeWidth="0.04" fill="#ccc" stroke="#fff"></rect>
-/*<circle onClick={onClick} cx={x} cy={-y} r={0.3} opacity={opacity} fill="blue"></circle>*/
