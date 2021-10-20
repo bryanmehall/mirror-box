@@ -32,15 +32,11 @@ export const Visualization = () => {
     }
     // add animation for time value --adapted from Zibit
     React.useLayoutEffect(() => {
-        let animationId
         if (playbackSpeed !== 0){
             const render = (time) => {
                 setTime((time-initialTime)*playbackSpeed/1000)
             }
-
-            animationId = requestAnimationFrame(render)
-        } else {
-            return () => {cancelAnimationFrame(animationId)}
+            requestAnimationFrame(render)
         }
     })
     // create list of all Rays visible above the occlusion angle
