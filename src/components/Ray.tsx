@@ -23,7 +23,7 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
     const dy = (length)
     const slope = dx/dy //0 slope is straight up, infinite slope is left-right
     const highlightedX = (width*highlightedIndex*xSign)
-    const zeroAngle = index === 0 ? -isEven(highlightedIndex) : 1
+    const zeroAngle = index === 0 ? -isEven(highlightedIndex) : Math.sign(highlightedIndex)
     const angle = (Math.atan2(dy, highlightedX)-Math.PI/2)* zeroAngle
     const targetX = length*slope
     const rayOpacity = highlighted ? 1: opacity * 0.4
