@@ -1,7 +1,7 @@
 import * as React from "react"
 import { CLIP_NAME, LIGHT_SPEED } from "../constants"
 import { PointArray, RayProps } from "../types"
-import { getReflectionPath, isEven, refColor, xScale } from "../utils"
+import { getReflectionPath, orientationFlag, refColor, xScale } from "../utils"
 import { LightBulb } from "./LightBulb"
 
 // Ray path and vector math adapted from Zibit
@@ -28,7 +28,7 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
 
     // calculate geometry for virtual light particle
     const highlightedX = width*highlightedIndex*xSign
-    const zeroAngle = index === 0 ? -isEven(highlightedIndex) : Math.sign(highlightedIndex)
+    const zeroAngle = index === 0 ? -orientationFlag(highlightedIndex) : Math.sign(highlightedIndex)
     const angle = (Math.atan2(dy, highlightedX)-Math.PI/2) * zeroAngle
     const radius = LIGHT_SPEED * time
     const x = dx + radius * Math.sin(angle)

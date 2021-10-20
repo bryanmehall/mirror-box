@@ -11,9 +11,12 @@ export const refColor = (n: number, saturation: number): string => {
     return `hsl(${hue},${saturation*100}%, 40%)`
 }
 
-export const rayOpacity = (reflections:number, ): number => ( 
+export const rayOpacity = (reflections:number): number => ( 
     0.7**reflections
 )
+
+export const orientationFlag = (n:number): number => n % 2 === 0 ? 1 : -1
+
 export const createRayGeometry = (width:number, targetPos:number, viewerPos:number, reflections: number, direction:DirectionFlag): RayGeometry => {
     const length = targetPos+viewerPos
     const xSign =  xScale(direction) // scaling factor if array is going left or right
@@ -23,7 +26,7 @@ export const createRayGeometry = (width:number, targetPos:number, viewerPos:numb
     // create coordinates of reflection
     const reflectionPoints = new Array(reflections).fill(0)
         .map((e, i) => ({
-            x: width/2*xSign*isEven(i), 
+            x: width/2*xSign*orientationFlag(i), 
             y: -pitch*i-pitch/2+viewerPos
         }))
 
@@ -58,7 +61,7 @@ export const getReflectionPath = (maxIndex: null | number) => {
        return [] 
     } else {
         return new Array(Math.abs(maxIndex)+1).fill(0)
-            .map((e,i) => isEven(i)*i*isEven(maxIndex)*Math.sign(maxIndex))
+            .map((e,i) => orientationFlag(i)*i*orientationFlag(maxIndex)*Math.sign(maxIndex))
     }
 }
 
