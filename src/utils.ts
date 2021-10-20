@@ -14,8 +14,7 @@ export const refColor = (n: number, saturation: number): string => {
 export const rayOpacity = (reflections:number, ): number => ( 
     0.7**reflections
 )
-export const isEven = (n:number): number => n % 2 === 0 ? 1 :-1
-export const createRayGeometry = (width:number, targetPos:number, viewerPos:number, reflections: number, direction:"left" | "right"): RayGeometry => {
+export const createRayGeometry = (width:number, targetPos:number, viewerPos:number, reflections: number, direction:DirectionFlag): RayGeometry => {
     const length = targetPos+viewerPos
     const xSign =  xScale(direction)//scaling factor if array is going left or right
     const index = xSign*reflections

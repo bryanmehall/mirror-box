@@ -1,4 +1,4 @@
-export type DirectionFlag = "left" | "right"
+export type DirectionFlag = "left" | "right";
 
 export interface CoordPoint {
     x: number;
@@ -13,7 +13,7 @@ export interface RayGeometry {
     length: number;
     targetPos: number;
     viewerPos: number;
-    direction: "left" | "right";
+    direction: DirectionFlag;
     points: PointArray;
     index: number;
 }
