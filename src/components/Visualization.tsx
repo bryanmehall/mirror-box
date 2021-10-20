@@ -45,7 +45,7 @@ export const Visualization = () => {
             return () => {cancelAnimationFrame(animationId)}
         }
     })
-    // create list of all arrays 
+    // create list of all Rays visible above the occlusion angle
     const paths = createPossiblePaths(mirrorWidth, targetPosition, viewerPosition)
         const rays = paths.map((rayGeometry, i) => (
             <Ray 
