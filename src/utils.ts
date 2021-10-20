@@ -17,15 +17,18 @@ export const rayOpacity = (reflections:number, ): number => (
 export const isEven = (n:number): number => n % 2 === 0 ? 1 :-1
 export const createRayGeometry = (width:number, targetPos:number, viewerPos:number, reflections: number, direction:"left" | "right"): RayGeometry => {
     const length = targetPos+viewerPos
-    const xScale = direction === "left" ? -1 : 1 //scaling factor if array is going left or right
-    const index = xScale*reflections
+    const xSign =  xScale(direction)//scaling factor if array is going left or right
+    const index = xSign*reflections
     const pitch = length/reflections //distance for full reflection cycle
-    const reflectionPoints = new Array(reflections) 
-        .fill(0)
+
+    //create coordinates of reflection
+    const reflectionPoints = new Array(reflections).fill(0)
         .map((e, i) => ({
-            x: width/2*xScale*isEven(i), 
+            x: width/2*xSign*isEven(i), 
             y: -pitch*i-pitch/2+viewerPos
         }))
+
+    //add coordinates of reflection between beginning and ending point
     const pointArray = [
         {x:0, y:viewerPos}, //viewer
         ...reflectionPoints,
@@ -39,8 +42,9 @@ export const createPossiblePaths = (width: number, targetPos: number, viewerPos:
     const occlusionSlope = viewerPos/(width/2)
     const length = targetPos+viewerPos
     const maxReflections = Math.floor(length/(occlusionSlope*width))
-    const reflectedPaths = new Array(maxReflections)
-        .fill(0)
+
+    //calculate all possible reflected paths for a given occlusion angle
+    const reflectedPaths = new Array(maxReflections).fill(0)
         .map((e, i) => ([
             createRayGeometry(width, targetPos, viewerPos, i+1, "left"),
             createRayGeometry(width, targetPos, viewerPos, i+1, "right")
@@ -58,6 +62,5 @@ export const getReflectionPath = (maxIndex: null | number) => {
             .map((e,i) => isEven(i)*i*isEven(maxIndex)*Math.sign(maxIndex))
     }
 }
-    
 
 export const clamp = (n: number, min: number, max: number): number => (Math.min(Math.max(n, min), max))
