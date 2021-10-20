@@ -68,7 +68,7 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
             cx={x} 
             cy={y} 
             r={0.2} 
-            opacity={isInPath ? 1 : 0} 
+            opacity={isInPath && y < viewerPos ? 1 : 0} 
             fill={refColor(reflections, isInPath ? 1: 0)}
             clipPath={clip && !highlighted ? `url(#${ CLIP_NAME})`: null}
         />
