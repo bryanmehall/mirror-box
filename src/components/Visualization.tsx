@@ -12,7 +12,7 @@ const viewerPosition = 0.5
 const targetPosition = 8
 
 export const Visualization = () => {
-    const [time, setTime] = React.useState(-2)
+    const [time, setTime] = React.useState(0)
     const [initialTime, setInitialTime] = React.useState(performance.now())
     const [playbackSpeed, setPlaybackSpeed] = React.useState(0.5)
     const [mirrorWidth, setMirrorWidth] = React.useState(4)
@@ -24,6 +24,11 @@ export const Visualization = () => {
         pt.x = event.clientX
         pt.y = event.clientY
         return pt.matrixTransform(svg.current.getScreenCTM().inverse())
+    }
+    const startAnimation = (index) => {
+        setHighlightedIndex(index)
+        setInitialTime(performance.now())
+        setTime(0)
     }
     //add animation for time value --adapted from Zibit
     React.useLayoutEffect(() => {
@@ -43,7 +48,7 @@ export const Visualization = () => {
             <Ray 
                 rayGeometry={rayGeometry} 
                 highlightedIndex={highlightedIndex}
-                setHighlightedIndex={setHighlightedIndex}
+                startAnimation={startAnimation}
                 opacity={rayOpacity(rayGeometry.reflections)} 
                 time={time}
                 key={i}
