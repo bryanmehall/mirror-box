@@ -9,7 +9,6 @@ type ViewerProps = {
 }
 
 export const Viewer = ({viewerPosition, setViewerPosition, getCoord}: ViewerProps): JSX.Element => {
-    const illuminated = false //TODO: make interaction when light wave crosses viewer
     const dragMove = (e) => {
         const newPos = clamp(getCoord(e).y, 0.1, 3)
         setViewerPosition(newPos)
@@ -36,4 +35,3 @@ export const Viewer = ({viewerPosition, setViewerPosition, getCoord}: ViewerProp
         </Draggable>
     )
 }
-//<circle cx={0} cy={viewerPosition} r={0.3} fill="#aaa"></circle>
