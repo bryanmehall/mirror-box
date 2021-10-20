@@ -13,7 +13,8 @@ export const LightBulb = ({x, y, opacity, onClick, illuminated}: TargetProps): J
         <g 
             transform={`translate(${x-.3}, ${y-.3})`}
             onClick={onClick}
-        >
+            cursor="pointer"
+            >
             <polygon 
                 fill={illuminated ? "yellow": "#777" }
                 opacity={illuminated ? 1 : opacity}

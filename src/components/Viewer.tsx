@@ -15,7 +15,9 @@ export const Viewer = ({viewerPosition, setViewerPosition, getCoord}: ViewerProp
     }
     return (
         <Draggable dragMove={dragMove}>
-            <g transform={`translate(${-.3}, ${viewerPosition-.3}) scale(0.002)`}>
+            <g 
+                transform={`translate(${-.3}, ${viewerPosition-.3}) scale(0.002)`}
+                cursor="ns-resize">
                 <polygon 
                     fill="#88f"
                     points="300,150 225,280 75,280 0,150 75,20 225,20" 
