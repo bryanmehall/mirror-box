@@ -4,7 +4,7 @@ import { DirectionFlag } from '../types'
 import { clamp, xScale } from '../utils'
 import { Draggable } from './Draggable'
 
-const MIRROR_WIDTH = 0.2 //offset mirror width for reflections
+const MIRROR_WIDTH = 0.2 // offset mirror width for reflections
 
 type MirrorProps = {
     width: number,

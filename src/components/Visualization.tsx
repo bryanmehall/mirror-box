@@ -5,12 +5,10 @@ import { createPossiblePaths, rayOpacity } from '../utils'
 import { Mirror } from './Mirror'
 import { Viewer } from './Viewer'
 
-//independent variables
-//TODO: add to state
 const targetPosition = 8
 
 export const Visualization = () => {
-    //state hooks
+    // independent variables
     const [time, setTime] = React.useState(0)
     const [initialTime, setInitialTime] = React.useState(performance.now())
     const [playbackSpeed, setPlaybackSpeed] = React.useState(1)
@@ -18,7 +16,7 @@ export const Visualization = () => {
     const [viewerPosition, setViewerPosition] = React.useState(1)
     const [highlightedIndex, setHighlightedIndex] = React.useState(-1)
     
-    // inverse svg coordinate transform --adapted from Zibit
+    // inverse svg coordinate transform -- adapted from Zibit
     const svg = React.useRef(null)
     const getCoord = (event) => {
         const pt = svg.current.createSVGPoint()

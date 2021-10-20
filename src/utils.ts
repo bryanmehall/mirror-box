@@ -5,7 +5,7 @@ export const xScale = (direction: DirectionFlag): number => (
 )
 
 const reflectionHues = [ 50, 100, 200, 270, 0, 25]
-//cycle through colors then repeat
+// cycle through colors then repeat
 export const refColor = (n: number, saturation: number): string => {
     const hue = reflectionHues[n % reflectionHues.length]
     return `hsl(${hue},${saturation*100}%, 40%)`
@@ -16,33 +16,33 @@ export const rayOpacity = (reflections:number, ): number => (
 )
 export const createRayGeometry = (width:number, targetPos:number, viewerPos:number, reflections: number, direction:DirectionFlag): RayGeometry => {
     const length = targetPos+viewerPos
-    const xSign =  xScale(direction)//scaling factor if array is going left or right
+    const xSign =  xScale(direction) // scaling factor if array is going left or right
     const index = xSign*reflections
-    const pitch = length/reflections //distance for full reflection cycle
+    const pitch = length/reflections // distance for full reflection cycle
 
-    //create coordinates of reflection
+    // create coordinates of reflection
     const reflectionPoints = new Array(reflections).fill(0)
         .map((e, i) => ({
             x: width/2*xSign*isEven(i), 
             y: -pitch*i-pitch/2+viewerPos
         }))
 
-    //add coordinates of reflection between beginning and ending point
+    // add coordinates of reflection between beginning and ending point
     const pointArray = [
-        {x:0, y:viewerPos}, //viewer
+        {x:0, y:viewerPos}, // viewer
         ...reflectionPoints,
-        {x:0, y:-targetPos} //target
+        {x:0, y:-targetPos} // target
     ]
     return { points: pointArray, reflections, width, targetPos, viewerPos, length, direction, index}
 }
 
-//calculate possible paths based on occlusion angle
+// calculate possible paths based on occlusion angle
 export const createPossiblePaths = (width: number, targetPos: number, viewerPos: number): RayGeometry[] => {
     const occlusionSlope = viewerPos/(width/2)
     const length = targetPos+viewerPos
     const maxReflections = Math.floor(length/(occlusionSlope*width))
 
-    //calculate all possible reflected paths for a given occlusion angle
+    // calculate all possible reflected paths for a given occlusion angle
     const reflectedPaths = new Array(maxReflections).fill(0)
         .map((e, i) => ([
             createRayGeometry(width, targetPos, viewerPos, i+1, "left"),
@@ -52,7 +52,7 @@ export const createPossiblePaths = (width: number, targetPos: number, viewerPos:
     return [createRayGeometry(width, targetPos, viewerPos, 0, "left"), ...reflectedPaths]
 }
 
-//get indices in reflection path ie. 4 => [4, -3, 2, -1,0]
+// get indices in reflection path ie. 4 => [4, -3, 2, -1, 0]
 export const getReflectionPath = (maxIndex: null | number) => {
     if (maxIndex === null){
        return [] 

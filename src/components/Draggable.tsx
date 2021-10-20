@@ -1,6 +1,6 @@
 import * as React from "react"
 
-//adapted from Zibit Draggable component
+// adapted from Zibit Draggable component
 export const Draggable = (props) => {
     const mouseDown = (e) => {
         if (props.hasOwnProperty('dragStart')){props.dragStart(e)}
