@@ -4,7 +4,7 @@ import { PointArray, RayProps } from "../types"
 import { getReflectionPath, isEven, refColor, xScale } from "../utils"
 import { LightBulb } from "./LightBulb"
 
-// convert PointArray [{x:num, y:num}, ...] to svg path string "Mnum numL..."
+// convert PointArray [{x:0, y:0}, ...] to svg path string "M 0 0 L..."
 //Ray path and vector math adapted from Zibit
 const pointsToString = (points: PointArray): string => {
     const lineString = points.slice(1)
@@ -15,23 +15,33 @@ const pointsToString = (points: PointArray): string => {
 
 export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimation }: RayProps): JSX.Element => {
     const {points, reflections, width, targetPos, viewerPos, direction, index} = rayGeometry
+    // highlighted ray is the ray that was clicked
     const highlighted = highlightedIndex === index
+    // isInPath is true if virtual object is part of the reflection path
+    // if the fourth ray on the right is highlighted (index=4) then the rays in the path are: [4, -3, 2, -1, 0]
     const isInPath = getReflectionPath(highlightedIndex).includes(index)
+
+    //calculate geometry for virtual ray
     const xSign = xScale(direction)
-    const length = (viewerPos+targetPos)
+    const length = (viewerPos+targetPos) // distance from viewer to lightBulb
     const dx = (width*reflections*xSign)
     const dy = (length)
     const slope = dx/dy //0 slope is straight up, infinite slope is left-right
+    const targetX = length*slope
+
+    //calculate geometry for virtual light particle
     const highlightedX = (width*highlightedIndex*xSign)
     const zeroAngle = index === 0 ? -isEven(highlightedIndex) : Math.sign(highlightedIndex)
     const angle = (Math.atan2(dy, highlightedX)-Math.PI/2)* zeroAngle
-    const targetX = length*slope
-    const rayOpacity = highlighted ? 1: opacity * 0.4
-    const clip = true
-    const rayColor = highlighted ? "red" : "white"
     const radius = LIGHT_SPEED * time
     const x = targetX+radius*Math.sin(angle)
     const y = -targetPos+radius*Math.cos(angle)
+
+    //set visual parameters
+    const rayOpacity = highlighted ? 1: opacity * 0.4
+    const clip = true
+    const rayColor = highlighted ? "red" : "white"
+    
     return <g>
         {/* light path*/}
         <path 
@@ -59,7 +69,7 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
             r={radius} 
             opacity={isInPath ? 0.5 : rayOpacity} 
             fill="none" 
-            stroke={refColor(reflections, highlighted||isInPath ? 1: 0)} 
+            stroke={refColor(reflections, highlighted || isInPath ? 1: 0)} 
             strokeWidth="0.07"
             clipPath={clip && !highlighted ? `url(#${ CLIP_NAME})`: null}
         />
