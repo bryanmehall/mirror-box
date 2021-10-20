@@ -13,7 +13,7 @@ export interface RayGeometry {
     length: number;
     targetPos: number;
     viewerPos: number;
-    direction: "left" | "right"
+    direction: "left" | "right";
     points: PointArray;
     index: number;
 }
@@ -21,7 +21,6 @@ export interface RayGeometry {
 export interface RayProps {
     rayGeometry: RayGeometry;
     highlightedIndex: null | number;
-    setHighlightedIndex: Function
     opacity:number;
     time: number; 
     startAnimation: Function;
