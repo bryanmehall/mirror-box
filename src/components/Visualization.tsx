@@ -18,7 +18,7 @@ export const Visualization = () => {
     const [viewerPosition, setViewerPosition] = React.useState(1)
     const [highlightedIndex, setHighlightedIndex] = React.useState(-1)
     
-    //inverse svg coordinate transform --adapted from Zibit
+    // inverse svg coordinate transform --adapted from Zibit
     const svg = React.useRef(null)
     const getCoord = (event) => {
         const pt = svg.current.createSVGPoint()
@@ -32,7 +32,7 @@ export const Visualization = () => {
         setInitialTime(performance.now())
         setTime(0)
     }
-    //add animation for time value --adapted from Zibit
+    // add animation for time value --adapted from Zibit
     React.useLayoutEffect(() => {
         let animationId
         if (playbackSpeed !== 0){
@@ -45,6 +45,7 @@ export const Visualization = () => {
             return () => {cancelAnimationFrame(animationId)}
         }
     })
+    // create list of all arrays 
     const paths = createPossiblePaths(mirrorWidth, targetPosition, viewerPosition)
         const rays = paths.map((rayGeometry, i) => (
             <Ray 
