@@ -1,7 +1,7 @@
 {
   "name": "mirror-box",
   "version": "1.0.0",
-  "description": "Mirror reflection interactive for brilliant.org",
+  "description": "Mirror reflection interactive",
   "main": "index.js",
   "author": "Bryan Mehall",
   "license": "MIT",
