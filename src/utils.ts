@@ -1,7 +1,7 @@
 import { DirectionFlag, RayGeometry } from "./types"
 
 export const xScale = (direction: DirectionFlag): number => (
-    direction == "left" ? -1 : 1
+    direction === "left" ? -1 : 1
 )
 
 const reflectionHues = [ 50, 100, 200, 270, 0, 25]
