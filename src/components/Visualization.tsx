@@ -7,23 +7,26 @@ import { Viewer } from './Viewer'
 
 //independent variables
 //TODO: add to state
-const viewerPosition = 0.5
 const targetPosition = 8
 
 export const Visualization = () => {
+    //state hooks
     const [time, setTime] = React.useState(0)
     const [initialTime, setInitialTime] = React.useState(performance.now())
-    const [playbackSpeed, setPlaybackSpeed] = React.useState(0.5)
+    const [playbackSpeed, setPlaybackSpeed] = React.useState(1)
     const [mirrorWidth, setMirrorWidth] = React.useState(4)
+    const [viewerPosition, setViewerPosition] = React.useState(0.5)
     const [highlightedIndex, setHighlightedIndex] = React.useState(null)
-    const svg = React.useRef(null)
+    
     //inverse svg coordinate transform --adapted from Zibit
+    const svg = React.useRef(null)
     const getCoord = (event) => {
         const pt = svg.current.createSVGPoint()
         pt.x = event.clientX
         pt.y = event.clientY
         return pt.matrixTransform(svg.current.getScreenCTM().inverse())
     }
+
     const startAnimation = (index) => {
         setHighlightedIndex(index)
         setInitialTime(performance.now())
@@ -58,8 +61,9 @@ export const Visualization = () => {
         <SVGFilters width={mirrorWidth}></SVGFilters>
         <Mirror width={mirrorWidth} direction="left" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
         <Mirror width={mirrorWidth} direction="right" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
-        <Viewer viewerPosition={viewerPosition}/>
+        
         {rays}
+        <Viewer viewerPosition={viewerPosition} setViewerPosition={setViewerPosition} getCoord={getCoord}/>
     </svg>
 }
 
