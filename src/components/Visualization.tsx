@@ -15,8 +15,8 @@ export const Visualization = () => {
     const [initialTime, setInitialTime] = React.useState(performance.now())
     const [playbackSpeed, setPlaybackSpeed] = React.useState(1)
     const [mirrorWidth, setMirrorWidth] = React.useState(4)
-    const [viewerPosition, setViewerPosition] = React.useState(0.5)
-    const [highlightedIndex, setHighlightedIndex] = React.useState(null)
+    const [viewerPosition, setViewerPosition] = React.useState(1)
+    const [highlightedIndex, setHighlightedIndex] = React.useState(-1)
     
     //inverse svg coordinate transform --adapted from Zibit
     const svg = React.useRef(null)
