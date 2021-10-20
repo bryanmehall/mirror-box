@@ -78,7 +78,7 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
             }
             x={targetX} 
             y={targetPos} 
-            opacity={opacity}
+            opacity={highlighted ? 1 : opacity}
             illuminated = {(highlighted || index === 0) && time <0.5}
         />
     </g>
