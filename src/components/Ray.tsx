@@ -4,8 +4,8 @@ import { PointArray, RayProps } from "../types"
 import { getReflectionPath, isEven, refColor, xScale } from "../utils"
 import { LightBulb } from "./LightBulb"
 
+// Ray path and vector math adapted from Zibit
 // convert PointArray [{x:0, y:0}, ...] to svg path string "M 0 0 L..."
-//Ray path and vector math adapted from Zibit
 const pointsToString = (points: PointArray): string => {
     const lineString = points.slice(1)
         .map(point => `L${point.x} ${point.y}`)
@@ -21,24 +21,21 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
     // if the fourth ray on the right is highlighted (index=4) then the rays in the path are: [4, -3, 2, -1, 0]
     const isInPath = getReflectionPath(highlightedIndex).includes(index)
 
-    //calculate geometry for virtual ray
+    // calculate geometry for virtual ray
     const xSign = xScale(direction)
-    const length = (viewerPos+targetPos) // distance from viewer to lightBulb
-    const dx = (width*reflections*xSign)
-    const dy = (length)
-    const slope = dx/dy //0 slope is straight up, infinite slope is left-right
-    const targetX = length*slope
+    const dx = width*reflections*xSign
+    const dy = viewerPos+targetPos // distance from viewer to central lightBulb
 
-    //calculate geometry for virtual light particle
-    const highlightedX = (width*highlightedIndex*xSign)
+    // calculate geometry for virtual light particle
+    const highlightedX = width*highlightedIndex*xSign
     const zeroAngle = index === 0 ? -isEven(highlightedIndex) : Math.sign(highlightedIndex)
-    const angle = (Math.atan2(dy, highlightedX)-Math.PI/2)* zeroAngle
+    const angle = (Math.atan2(dy, highlightedX)-Math.PI/2) * zeroAngle
     const radius = LIGHT_SPEED * time
-    const x = targetX+radius*Math.sin(angle)
-    const y = -targetPos+radius*Math.cos(angle)
+    const x = dx + radius * Math.sin(angle)
+    const y = -targetPos + radius * Math.cos(angle)
 
-    //set visual parameters
-    const rayOpacity = highlighted ? 1: opacity * 0.4
+    // set visual parameters
+    const rayOpacity = highlighted ? 1 : opacity * 0.4
     const clip = true
     const rayColor = highlighted ? "red" : "white"
     
@@ -55,7 +52,7 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
         <line
             x1={points[1].x}
             y1={points[1].y}
-            x2={targetX}
+            x2={dx}
             y2={-targetPos}
             stroke={rayColor}
             opacity = {rayOpacity}
@@ -64,7 +61,7 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
         />
         {/* light pulse*/}
         <circle
-            cx={targetX} 
+            cx={dx} 
             cy={-targetPos} 
             r={radius} 
             opacity={isInPath ? 0.5 : rayOpacity} 
@@ -84,12 +81,11 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
         />
         {/* light bulb*/}
         <LightBulb 
-            onClick={() => {startAnimation(index)}
-            }
-            x={targetX} 
-            y={targetPos} 
+            onClick={() => {startAnimation(index)}}
+            x={dx} 
+            y={-targetPos} 
             opacity={highlighted ? 1 : opacity}
-            illuminated = {(highlighted || index === 0) && time <0.5}
+            illuminated = {(highlighted || index === 0) && time < 0.5}
         />
     </g>
 }
