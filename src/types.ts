@@ -23,4 +23,6 @@ export interface RayProps {
     highlightedIndex: null | number;
     setHighlightedIndex: Function
     opacity:number;
+    time: number; 
+    startAnimation: Function;
 }

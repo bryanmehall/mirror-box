@@ -3,10 +3,12 @@ import { clamp } from "../utils"
 import { Draggable } from "./Draggable"
 
 type ViewerProps = {
-    viewerPosition: number
+    viewerPosition: number,
+    setViewerPosition: Function,
+    getCoord: Function
 }
 
-export const Viewer = ({viewerPosition, setViewerPosition, getCoord}): JSX.Element => {
+export const Viewer = ({viewerPosition, setViewerPosition, getCoord}: ViewerProps): JSX.Element => {
     const illuminated = false //TODO: make interaction when light wave crosses viewer
     const dragMove = (e) => {
         const newPos = clamp(getCoord(e).y, 0.1, 3)

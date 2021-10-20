@@ -5,7 +5,7 @@ type TargetProps = {
     y: number,
     opacity: number,
     onClick: Function, 
-    illuminated
+    illuminated: boolean
 }
 
 export const LightBulb = ({x, y, opacity, onClick, illuminated}: TargetProps): JSX.Element => {
