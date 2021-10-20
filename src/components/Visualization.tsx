@@ -3,7 +3,6 @@ import { CLIP_NAME, MIRROR_LENGTH } from '../constants'
 import { Ray } from './Ray'
 import { createPossiblePaths, rayOpacity } from '../utils'
 import { Mirror } from './Mirror'
-import { Target } from './Target'
 import { Viewer } from './Viewer'
 
 //independent variables
@@ -60,7 +59,6 @@ export const Visualization = () => {
         <Mirror width={mirrorWidth} direction="left" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
         <Mirror width={mirrorWidth} direction="right" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
         <Viewer viewerPosition={viewerPosition}/>
-        <Target x={0} y={targetPosition} opacity={1}/>
         {rays}
     </svg>
 }

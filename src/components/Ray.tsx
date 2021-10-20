@@ -2,7 +2,7 @@ import * as React from "react"
 import { CLIP_NAME, LIGHT_SPEED } from "../constants"
 import { PointArray, RayProps } from "../types"
 import { getReflectionPath, isEven, refColor, xScale } from "../utils"
-import { Target } from "./Target"
+import { LightBulb } from "./LightBulb"
 
 // convert PointArray [{x:num, y:num}, ...] to svg path string "Mnum numL..."
 //Ray path and vector math adapted from Zibit
@@ -73,12 +73,13 @@ export const Ray = ({ rayGeometry, highlightedIndex, opacity, time, startAnimati
             clipPath={clip && !highlighted ? `url(#${ CLIP_NAME})`: null}
         />
         {/* light bulb*/}
-        <Target 
+        <LightBulb 
             onClick={() => {startAnimation(index)}
             }
             x={targetX} 
             y={targetPos} 
             opacity={opacity}
+            illuminated = {(highlighted || index === 0) && time <0.5}
         />
     </g>
 }
