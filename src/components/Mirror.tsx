@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { MIRROR_LENGTH } from '../constants'
 import { DirectionFlag } from '../types'
-import { xScale } from '../utils'
+import { clamp, xScale } from '../utils'
 import { Draggable } from './Draggable'
 
 const MIRROR_WIDTH = 0.2 //offset mirror width for reflections
@@ -16,7 +16,7 @@ type MirrorProps = {
 export const Mirror = ({width, direction, setMirrorWidth, getCoord}: MirrorProps) => {
     const x = xScale(direction)*(width/2 + MIRROR_WIDTH/2) 
     const dragMove = (e) => {
-        const newWidth = getCoord(e).x*2
+        const newWidth = clamp(getCoord(e).x * 2 * xScale(direction), 1, 10)
         setMirrorWidth(newWidth)
     }
     return (
