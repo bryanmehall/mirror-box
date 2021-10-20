@@ -45,17 +45,17 @@ export const Visualization = () => {
     })
     // create list of all Rays visible above the occlusion angle
     const paths = createPossiblePaths(mirrorWidth, targetPosition, viewerPosition)
-        const rays = paths.map((rayGeometry, i) => (
-            <Ray 
-                rayGeometry={rayGeometry} 
-                highlightedIndex={highlightedIndex}
-                startAnimation={startAnimation}
-                opacity={rayOpacity(rayGeometry.reflections)} 
-                time={time}
-                key={i}
-            />
-            ))
-            .reverse() //render middle ray with highest z-index
+    const rays = paths.map((rayGeometry, i) => (
+        <Ray
+            rayGeometry={rayGeometry}
+            highlightedIndex={highlightedIndex}
+            startAnimation={startAnimation}
+            opacity={rayOpacity(rayGeometry.reflections)}
+            time={time}
+            key={i}
+        />
+        ))
+        .reverse() // render middle ray with highest z-index
     return <svg width="100%" height="100%" viewBox="-15 -10 30 14" ref={svg}>
         <SVGFilters width={mirrorWidth}></SVGFilters>
         <Mirror width={mirrorWidth} direction="left" setMirrorWidth={setMirrorWidth} getCoord={getCoord}/>
